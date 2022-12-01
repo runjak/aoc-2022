@@ -1,0 +1,33 @@
+{
+  "name": "aoc-2022",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node tests",
+    "asbuild:debug": "asc assembly/index.ts --target debug",
+    "asbuild:release": "asc assembly/index.ts --target release",
+    "asbuild": "npm run asbuild:debug && npm run asbuild:release",
+    "start": "npx serve ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/runjak/aoc-2022.git"
+  },
+  "author": "Jakob Runge <aoc2022@runjak.codes>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/runjak/aoc-2022/issues"
+  },
+  "homepage": "https://github.com/runjak/aoc-2022#readme",
+  "devDependencies": {
+    "assemblyscript": "^0.24.1"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./build/release.js",
+      "types": "./build/release.d.ts"
+    }
+  }
+}
