@@ -13,22 +13,40 @@ fn resp_index() -> Response {
         .with_body(include_str!("index.html"))
 }
 
+fn lines_as_numbers(input: &str) -> Vec<i32> {
+    return input
+        .split("\n")
+        .filter_map(|line| line.parse::<i32>().ok())
+        .collect();
+}
+
+fn elve_calories(input: &str) -> Vec<i32> {
+    return input
+        .split("\n\n")
+        .map(|elve| lines_as_numbers(elve).into_iter().sum())
+        .collect();
+}
+
 fn task_01_1() -> String {
     let input = include_str!("../inputs/01/input.txt");
-    let elves = input.split("\n\n");
+    let calories = elve_calories(input);
 
-    let mut max_calories: i32 = 0;
-
-    for elve in elves {
-        let inventory = elve.split("\n");
-        let calories = inventory.filter_map(|item| item.parse::<i32>().ok()).sum();
-
-        if max_calories < calories {
-            max_calories = calories;
-        }
-    }
+    let max_calories = calories.into_iter().max().unwrap_or(0);
 
     return max_calories.to_string();
+}
+
+fn task_01_2() -> String {
+    let input = include_str!("../inputs/01/input.txt");
+
+    let mut calories = elve_calories(input);
+    calories.sort();
+
+    let foo: i32 = calories[calories.len() - 3..calories.len()]
+        .into_iter()
+        .sum();
+
+    return foo.to_string();
 }
 
 #[fastly::main]
@@ -57,6 +75,12 @@ fn main(req: Request) -> Result<Response, Error> {
             return Ok(Response::from_status(StatusCode::OK)
                 .with_content_type(mime::TEXT_PLAIN_UTF_8)
                 .with_body(task_01_1()));
+        }
+
+        "/01-2" => {
+            return Ok(Response::from_status(StatusCode::OK)
+                .with_content_type(mime::TEXT_PLAIN_UTF_8)
+                .with_body(task_01_2()));
         }
 
         _ => Ok(Response::from_status(StatusCode::NOT_FOUND)
