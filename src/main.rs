@@ -2,10 +2,10 @@ use fastly::http::{header, Method, StatusCode};
 use fastly::{mime, Error, Request, Response};
 
 pub mod day_01;
-use crate::day_01::{task_01_1,task_01_2};
+use crate::day_01::{task_01_1, task_01_2};
 
 pub mod day_02;
-use crate::day_02::{task_02_1};
+use crate::day_02::{task_02_1, task_02_2};
 
 fn resp_method_not_allowed() -> Response {
     return Response::from_status(StatusCode::METHOD_NOT_ALLOWED)
@@ -57,6 +57,12 @@ fn main(req: Request) -> Result<Response, Error> {
             return Ok(Response::from_status(StatusCode::OK)
                 .with_content_type(mime::TEXT_PLAIN_UTF_8)
                 .with_body(task_02_1()));
+        }
+
+        "/02-2" => {
+            return Ok(Response::from_status(StatusCode::OK)
+                .with_content_type(mime::TEXT_PLAIN_UTF_8)
+                .with_body(task_02_2()));
         }
 
         _ => Ok(Response::from_status(StatusCode::NOT_FOUND)

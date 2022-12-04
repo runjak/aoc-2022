@@ -1,3 +1,5 @@
+use std::collections::binary_heap::Iter;
+
 #[derive(PartialEq, Clone, Copy)]
 enum RPS {
     Rock,
@@ -58,6 +60,51 @@ fn matchup_score((them, us): (RPS, RPS)) -> i32 {
 pub fn task_02_1() -> String {
     let input = include_str!("../inputs/02/input.txt");
     let strategy = input.split("\n").filter_map(parse_line);
+
+    let strategy_score: i32 = strategy
+        .map(|matchup| matchup_score(matchup) + rps_score(matchup.1))
+        .sum();
+
+    return strategy_score.to_string();
+}
+
+#[derive(PartialEq)]
+enum Tactic {
+    Loose,
+    Draw,
+    Win,
+}
+
+fn rps_to_tactic(rps: RPS) -> Tactic {
+    match rps {
+        RPS::Rock => Tactic::Loose,
+        RPS::Paper => Tactic::Draw,
+        RPS::Scissors => Tactic::Win,
+    }
+}
+
+fn choose_rps(rps: RPS, tactic: Tactic) -> RPS {
+    match tactic {
+        Tactic::Draw => rps,
+        Tactic::Loose => match rps {
+            RPS::Rock => RPS::Scissors,
+            RPS::Paper => RPS::Rock,
+            RPS::Scissors => RPS::Paper,
+        },
+        Tactic::Win => match rps {
+            RPS::Rock => RPS::Paper,
+            RPS::Paper => RPS::Scissors,
+            RPS::Scissors => RPS::Rock,
+        },
+    }
+}
+
+pub fn task_02_2() -> String {
+    let input = include_str!("../inputs/02/input.txt");
+    let strategy = input
+        .split("\n")
+        .filter_map(parse_line)
+        .map(|(them, us)| (them, choose_rps(them, rps_to_tactic(us))));
 
     let strategy_score: i32 = strategy
         .map(|matchup| matchup_score(matchup) + rps_score(matchup.1))
