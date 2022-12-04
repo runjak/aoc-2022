@@ -1,6 +1,9 @@
 use fastly::http::{header, Method, StatusCode};
 use fastly::{mime, Error, Request, Response};
 
+pub mod day_01;
+use crate::day_01::{task_01_1,task_01_2};
+
 fn resp_method_not_allowed() -> Response {
     return Response::from_status(StatusCode::METHOD_NOT_ALLOWED)
         .with_header(header::ALLOW, "GET, HEAD")
@@ -11,42 +14,6 @@ fn resp_index() -> Response {
     Response::from_status(StatusCode::OK)
         .with_content_type(mime::TEXT_HTML_UTF_8)
         .with_body(include_str!("index.html"))
-}
-
-fn lines_as_numbers(input: &str) -> Vec<i32> {
-    return input
-        .split("\n")
-        .filter_map(|line| line.parse::<i32>().ok())
-        .collect();
-}
-
-fn elve_calories(input: &str) -> Vec<i32> {
-    return input
-        .split("\n\n")
-        .map(|elve| lines_as_numbers(elve).into_iter().sum())
-        .collect();
-}
-
-fn task_01_1() -> String {
-    let input = include_str!("../inputs/01/input.txt");
-    let calories = elve_calories(input);
-
-    let max_calories = calories.into_iter().max().unwrap_or(0);
-
-    return max_calories.to_string();
-}
-
-fn task_01_2() -> String {
-    let input = include_str!("../inputs/01/input.txt");
-
-    let mut calories = elve_calories(input);
-    calories.sort();
-
-    let foo: i32 = calories[calories.len() - 3..calories.len()]
-        .into_iter()
-        .sum();
-
-    return foo.to_string();
 }
 
 #[fastly::main]
