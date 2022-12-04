@@ -1,8 +1,8 @@
 # This file describes a Fastly Compute@Edge package. To learn more visit:
 # https://developer.fastly.com/reference/fastly-toml/
 
-authors = ["Jakob Runge <aoc-2022@runjak.codes>"]
-description = " to Let's turn to the cloud and see how it would look like to tackle AoC 2022 using Fastly Compute@Edge"
+authors = ["aoc-2022@runjak.codes"]
+description = "Let's turn to the cloud and see how it would look like to tackle AoC 2022 using Fastly Compute@Edge"
 language = "rust"
 manifest_version = 2
 name = "aoc-2022"
