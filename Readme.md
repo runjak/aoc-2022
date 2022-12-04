@@ -1,6 +1,7 @@
 # Advent of Code 2022
 
-Website: [AoC 2022](https://adventofcode.com/2022)
+* Website: [AoC 2022](https://adventofcode.com/2022)
+* Demo: [previously-immortal-lacewing.edgecompute.app](https://previously-immortal-lacewing.edgecompute.app).
 
 This year I'm starting somewhat late to the party.
 Again I feel uncertain whether I'll stick to it for longer,
@@ -19,7 +20,3 @@ Using the fastli CLI we can serve the compute@edge setup locally:
 ```bash
 fastly compute serve
 ```
-
-## Demo service
-
-The current demo service is deployed to [previously-immortal-lacewing.edgecompute.app](https://previously-immortal-lacewing.edgecompute.app).
