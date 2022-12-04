@@ -6,7 +6,7 @@ description = " to Let's turn to the cloud and see how it would look like to tac
 language = "rust"
 manifest_version = 2
 name = "aoc-2022"
-service_id = ""
+service_id = "U6bfqd9Cu5flDMGYttFt17"
 
 [scripts]
   build = "cargo build --bin fastly-compute-project --release --target wasm32-wasi --color always"

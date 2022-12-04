@@ -19,3 +19,7 @@ Using the fastli CLI we can serve the compute@edge setup locally:
 ```bash
 fastly compute serve
 ```
+
+## Demo service
+
+The current demo service is deployed to [previously-immortal-lacewing.edgecompute.app](https://previously-immortal-lacewing.edgecompute.app).
