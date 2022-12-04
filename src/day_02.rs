@@ -1,3 +1,4 @@
+#[derive(PartialEq, Clone, Copy)]
 enum RPS {
     Rock,
     Paper,
@@ -33,16 +34,34 @@ fn show_rps(rps: RPS) -> &'static str {
     }
 }
 
+fn rps_score(rps: RPS) -> i32 {
+    match rps {
+        RPS::Rock => 1,
+        RPS::Paper => 2,
+        RPS::Scissors => 3,
+    }
+}
+
+fn matchup_score((them, us): (RPS, RPS)) -> i32 {
+    if them == us {
+        return 3;
+    }
+
+    return match (them, us) {
+        (RPS::Rock, RPS::Paper) => 6,
+        (RPS::Paper, RPS::Scissors) => 6,
+        (RPS::Scissors, RPS::Rock) => 6,
+        _ => 0,
+    };
+}
+
 pub fn task_02_1() -> String {
     let input = include_str!("../inputs/02/input.txt");
     let strategy = input.split("\n").filter_map(parse_line);
 
-    let items = strategy.map(|(them, us)| format!("{} {}", show_rps(them), show_rps(us)));
-    let mut stuff = String::from("");
+    let strategy_score: i32 = strategy
+        .map(|matchup| matchup_score(matchup) + rps_score(matchup.1))
+        .sum();
 
-    for item in items {
-        stuff = format!("{}\n{}", stuff, item);
-    }
-
-    return stuff;
+    return strategy_score.to_string();
 }
