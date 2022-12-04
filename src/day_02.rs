@@ -1,5 +1,3 @@
-use std::collections::binary_heap::Iter;
-
 #[derive(PartialEq, Clone, Copy)]
 enum RPS {
     Rock,
@@ -26,14 +24,6 @@ fn parse_line(line: &str) -> Option<(RPS, RPS)> {
     let us = parts.next().and_then(read_rps)?;
 
     return Some((them, us));
-}
-
-fn show_rps(rps: RPS) -> &'static str {
-    match rps {
-        RPS::Rock => "🪨",
-        RPS::Paper => "📄",
-        RPS::Scissors => "✂️",
-    }
 }
 
 fn rps_score(rps: RPS) -> i32 {
