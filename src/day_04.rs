@@ -38,8 +38,19 @@ pub fn task_04_1() -> String {
     return fully_contained_count.to_string();
 }
 
+fn partially_contains(shifts: ((i32, i32), (i32, i32))) -> bool {
+    range_contains(shifts.0, shifts.1 .0)
+        || range_contains(shifts.0, shifts.1 .1)
+        || range_contains(shifts.1, shifts.0 .0)
+        || range_contains(shifts.1, shifts.0 .1)
+}
+
 pub fn task_04_2() -> String {
     let input = include_str!("../inputs/04/input.txt");
 
-    return String::from(input);
+    let shiftss = input.split("\n").filter_map(parse_shifts);
+
+    let partially_contained_count = shiftss.filter(|shifts| partially_contains(*shifts)).count();
+
+    return partially_contained_count.to_string();
 }
