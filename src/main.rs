@@ -13,6 +13,9 @@ use crate::day_03::{task_03_1, task_03_2};
 pub mod day_04;
 use crate::day_04::{task_04_1, task_04_2};
 
+pub mod day_05;
+use crate::day_05::{task_05_1, task_05_2};
+
 fn resp_method_not_allowed() -> Response {
     return Response::from_status(StatusCode::METHOD_NOT_ALLOWED)
         .with_header(header::ALLOW, "GET, HEAD")
@@ -93,6 +96,18 @@ fn main(req: Request) -> Result<Response, Error> {
             return Ok(Response::from_status(StatusCode::OK)
                 .with_content_type(mime::TEXT_PLAIN_UTF_8)
                 .with_body(task_04_2()));
+        }
+
+        "/05-1" => {
+            return Ok(Response::from_status(StatusCode::OK)
+                .with_content_type(mime::TEXT_PLAIN_UTF_8)
+                .with_body(task_05_1()));
+        }
+
+        "/05-2" => {
+            return Ok(Response::from_status(StatusCode::OK)
+                .with_content_type(mime::TEXT_PLAIN_UTF_8)
+                .with_body(task_05_2()));
         }
 
         _ => Ok(Response::from_status(StatusCode::NOT_FOUND)
