@@ -16,21 +16,17 @@ fn parse_shifts(input: &str) -> Option<((i32, i32), (i32, i32))> {
     return Some((first_range, second_range));
 }
 
-fn smaller_first(shifts: ((i32, i32), (i32, i32))) -> ((i32, i32), (i32, i32)) {
-    if shifts.0 .0 > shifts.1 .0 {
-        return (shifts.1, shifts.0);
-    }
-
-    return shifts;
+fn range_contains(range: (i32, i32), element: i32) -> bool {
+    element >= range.0 && element <= range.1
 }
 
 fn fully_contains(shifts: ((i32, i32), (i32, i32))) -> bool {
-    let sorted_shifts = smaller_first(shifts);
+    let first_contains_second =
+        range_contains(shifts.0, shifts.1 .0) && range_contains(shifts.0, shifts.1 .1);
+    let second_contains_first =
+        range_contains(shifts.1, shifts.0 .0) && range_contains(shifts.1, shifts.0 .1);
 
-    let start_contained = sorted_shifts.1 .0 >= sorted_shifts.0 .0;
-    let end_contained = sorted_shifts.1 .1 <= sorted_shifts.0 .1;
-
-    return start_contained && end_contained;
+    return first_contains_second || second_contains_first;
 }
 
 pub fn task_04_1() -> String {
