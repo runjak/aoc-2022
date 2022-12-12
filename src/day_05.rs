@@ -92,6 +92,7 @@ fn execute_moves(stacks: Stacks, moves: Vec<Move>) -> Stacks {
                     .iter()
                     .take(*count)
                     .map(|c| *c)
+                    .rev()
                     .collect();
                 column.append(&mut stack.clone());
                 new_stacking.push(column);
