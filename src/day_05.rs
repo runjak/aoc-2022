@@ -74,7 +74,7 @@ fn parse_input(input: &str) -> Option<(Stacks, Vec<Move>)> {
     return Some((stacks, moves));
 }
 
-fn execute_moves(stacks: Stacks, moves: Vec<Move>) -> Stacks {
+fn execute_moves(stacks: Stacks, moves: Vec<Move>, old_crane: bool) -> Stacks {
     let mut restacking = stacks;
 
     for Move { from, to, count } in moves.iter() {
@@ -86,16 +86,28 @@ fn execute_moves(stacks: Stacks, moves: Vec<Move>) -> Stacks {
                 new_stacking.push(stack.iter().skip(*count).map(|c| *c).collect());
             } else if i.eq(to) {
                 // Push line with additional symbols
-                let mut column: Vec<char> = restacking
-                    .get(*from)
-                    .unwrap_or(&Vec::new())
-                    .iter()
-                    .take(*count)
-                    .map(|c| *c)
-                    .rev()
-                    .collect();
-                column.append(&mut stack.clone());
-                new_stacking.push(column);
+                if old_crane {
+                    let mut column: Vec<char> = restacking
+                        .get(*from)
+                        .unwrap_or(&Vec::new())
+                        .iter()
+                        .take(*count)
+                        .map(|c| *c)
+                        .rev()
+                        .collect();
+                    column.append(&mut stack.clone());
+                    new_stacking.push(column);
+                } else {
+                    let mut column: Vec<char> = restacking
+                        .get(*from)
+                        .unwrap_or(&Vec::new())
+                        .iter()
+                        .take(*count)
+                        .map(|c| *c)
+                        .collect();
+                    column.append(&mut stack.clone());
+                    new_stacking.push(column);
+                }
             } else {
                 new_stacking.push(stack.to_vec());
             }
@@ -110,13 +122,15 @@ fn execute_moves(stacks: Stacks, moves: Vec<Move>) -> Stacks {
 pub fn task_05_1() -> String {
     let input = include_str!("../inputs/05/input.txt");
     let (stacks, moves) = parse_input(input).unwrap();
-    let moved_stacks = execute_moves(stacks, moves);
+    let moved_stacks = execute_moves(stacks, moves, true);
 
     return format!("{:?}", stack_tops(moved_stacks));
 }
 
 pub fn task_05_2() -> String {
     let input = include_str!("../inputs/05/input.txt");
+    let (stacks, moves) = parse_input(input).unwrap();
+    let moved_stacks = execute_moves(stacks, moves, false);
 
-    return input.to_string();
+    return format!("{:?}", stack_tops(moved_stacks));
 }
